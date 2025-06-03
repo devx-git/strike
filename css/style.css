@@ -246,6 +246,31 @@
     z-index: 1;
 }
 
+/* Ajusta la altura de las imágenes del carrusel */
+.header-carousel-item img {
+    max-height: 75vh;
+    object-fit: cover;
+    object-position: center;
+}
+
+/* Reduce el tamaño de los encabezados en pantallas grandes */
+.header-carousel h1 {
+    font-size: 3rem; /* antes era display-1 = 6rem aprox */
+    line-height: 1.2;
+}
+
+/* Mejora la legibilidad del texto con fondo semitransparente */
+.carousel-caption-inner {
+    background-color: rgba(0, 0, 0, 0.4);
+    border-radius: 1rem;
+    padding: 2rem;
+}
+
+.custom-slide img {
+    max-height: 75vh;
+}
+
+
 .owl-prev,
 .owl-next {
     position: absolute;
@@ -255,7 +280,7 @@
     transform: translateY(-50%);
     padding: 20px 20px;
     border-radius: 40px;
-    background: var(--bs-primary);
+    background: rgba(0, 0, 0, 0.2); /* fondo semitransparente */
     color: var(--bs-white);
     display: flex;
     align-items: center;
@@ -264,11 +289,11 @@
 }
 
 .owl-prev {
-    left: 30px;
+    left: 15px;
 }
 
 .owl-next {
-    right: 30px;
+    right: 15px;
 }
 
 .owl-prev:hover,
@@ -391,6 +416,16 @@
     .owl-prev {
         left: 65%;
     }
+
+    @media (max-width: 768px) {
+    .header-carousel h1 {
+        font-size: 2rem;
+    }
+
+    .header-carousel p {
+        font-size: 1rem;
+    }
+}
 }
 /*** Header Carousel End ***/
 
