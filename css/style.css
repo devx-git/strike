@@ -119,6 +119,33 @@
     background: var(--bs-dark) !important;
 }
 
+/* Oculta el topbar por defecto */
+.hover-topbar {
+    height: 0;
+    overflow: hidden;
+    transition: height 0.4s ease;
+}
+
+/* Mostrado dinámicamente desde JS */
+.hover-topbar.visible {
+    height: 45px;
+}
+
+/* Al pasar el mouse sobre la parte superior del navegador */
+.hover-topbar:hover {
+    height: 45px; /* Altura completa del topbar */
+}
+
+.hover-topbar .row {
+    transition: opacity 0.4s ease;
+    opacity: 0;
+}
+
+.hover-topbar:hover .row {
+    opacity: 1;
+}
+
+
 @media (max-width: 768px) {
     .topbar {
         display: none;    
@@ -988,4 +1015,26 @@
     border-top: 1px solid rgba(255, 255, 255, 0.08);
     background: var(--bs-dark) !important;
 }
+
+.container-fluid .bg-breadcrumb {
+    position: relative;
+    height: 400px; /* O AJUSTA según lo que necesites */
+    overflow: hidden;
+}
+
+.bg-breadcrumb-single {
+    background-image: url('img/carousel-2.jpg'); /* Asegúrate de que esta ruta sea correcta */
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    opacity: 0.3; /* Ajusta la visibilidad del fondo */
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    z-index: 1;
+}
+
+
 /*** copyright end ***/
