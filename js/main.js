@@ -139,3 +139,25 @@
 
 })(jQuery);
 
+// Si pasa validación
+document.getElementById('contactForm').addEventListener('submit', function(e) {
+        e.preventDefault(); // Evita el envío automático
+
+    const name = document.getElementById('name').value.trim();
+    const email = document.getElementById('email').value.trim();
+    const phone = document.getElementById('phone').value.trim();
+    const project = document.getElementById('project').value.trim();
+    const subject = document.getElementById('subject').value.trim();
+    const message = document.getElementById('message').value.trim();
+    const feedback = document.getElementById('formFeedback');
+
+    // Validación de campos vacíos
+    if (!name || !email || !phone || !project || !subject || !message) {
+        feedback.innerHTML = '<div class="alert alert-danger">Por favor, completa todos los campos.</div>';
+        return;
+    }
+
+    // Si pasa validación, se envía el formulario
+    this.submit(); // Envío real al archivo enviar.php
+});
+
