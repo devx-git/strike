@@ -121,8 +121,8 @@
                     </div>
                     <div class="modal-body d-flex align-items-center">
                         <div class="input-group w-75 mx-auto d-flex">
-                            <input type="search" class="form-control p-3" placeholder="Buscar" aria-describedby="search-icon-1">
-                            <span id="search-icon-1" class="input-group-text p-3"><i class="fa fa-search"></i></span>
+                            <input type="search" id="searchInput" class="form-control p-3" placeholder="Buscar" aria-describedby="search-icon-1">
+                            <span id="search-icon-1" class="input-group-text p-3" style="cursor:pointer;"><i class="fa fa-search"></i></span>
                         </div>
                     </div>
                 </div>
@@ -924,6 +924,40 @@
         }, 2000); // Retardo de 2 segundos antes de ocultar
     });
 </script>
+
+<script>
+document.getElementById('search-icon-1').addEventListener('click', function () {
+    const keyword = document.getElementById('searchInput').value.toLowerCase();
+    if (!keyword) return;
+
+    // Busca todos los elementos de texto
+    const elements = document.querySelectorAll('body *:not(script):not(style)');
+    let found = false;
+
+    elements.forEach(el => {
+        if (el.innerText && el.innerText.toLowerCase().includes(keyword)) {
+            el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            el.style.backgroundColor = '#f0f0f0'; // gris clarito
+            found = true;
+             // Quita el fondo después de 2 segundos
+            setTimeout(() => {
+                el.style.backgroundColor = '';
+            }, 2000);
+        }
+    });
+
+    if (!found) {
+            // Cerrar el modal si encontró algo
+            const modalElement = document.getElementById('searchModal');
+            const modalInstance = bootstrap.Modal.getInstance(modalElement);
+            modalInstance.hide();
+        } else {
+        alert("No se encontró ninguna coincidencia.");
+    }
+});
+
+</script>
+
 
     </body>
 
