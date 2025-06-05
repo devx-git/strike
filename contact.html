@@ -379,7 +379,136 @@
         });
     </script>
 
+   <!-- ChatBot -->
+<div id="chatbot-container" style="position: fixed; bottom: 20px; right: 20px; z-index: 9999;">
+    <button onclick="toggleChatbot()" style="background: #0d6efd; color: white; border: none; border-radius: 50%; width: 60px; height: 60px; font-size: 24px;" title="Abrir ChatBot">🪙</button>
     
+    <div id="chatbot" style="display: none; width: 320px; height: 460px; background: white; border: 1px solid #ccc; border-radius: 10px; padding: 10px; box-shadow: 0 0 10px rgba(0,0,0,0.3); position: relative;">
+        <div style="text-align: right;">
+            <button onclick="closeChatbot()" style="background: none; border: none; font-size: 20px; color: #999;">✖</button>
+        </div>
+        <div id="chat-content" style="height: 370px; overflow-y: auto; padding-right: 5px;"></div>
+        <input type="text" id="user-input" placeholder="Escribe tu mensaje..." onkeydown="if(event.key==='Enter'){sendMessage()}" style="width: 100%; padding: 8px; margin-top: 5px;">
+    </div>
+</div>
+
+<script>
+let stepCount = 0;
+const limit = 3;
+let initialized = false;
+const userInput = document.getElementById("user-input");
+const sendButton = document.getElementById("send-button");
+const chatBox = document.getElementById("chat-box");
+
+sendButton.addEventListener("click", () => {
+        const userMessage = userInput.value.trim();
+        if (!userMessage) return;
+
+        addMessage("user", userMessage);
+
+        const userName = "Usuario"; // Puedes hacer un prompt para personalizarlo
+
+        // Guardar en base de datos
+        saveMessageToDB(userName, userMessage);
+
+        respondToUser(userMessage);
+        userInput.value = "";
+    });
+
+    function addMessage(sender, message) {
+        const msgDiv = document.createElement("div");
+        msgDiv.classList.add("chat-message", sender);
+        msgDiv.textContent = message;
+        chatBox.appendChild(msgDiv);
+        chatBox.scrollTop = chatBox.scrollHeight;
+    }
+
+function toggleChatbot() {
+    const chatbot = document.getElementById('chatbot');
+    chatbot.style.display = 'block';
+    if (!initialized) {
+        showWelcomeMessage();
+        initialized = true;
+    }
+}
+
+function closeChatbot() {
+    document.getElementById('chatbot').style.display = 'none';
+}
+
+function showWelcomeMessage() {
+    const chat = document.getElementById('chat-content');
+    const welcome = `<div style="text-align: left;">
+        <div style="display: inline-block; background: #f1f1f1; padding: 8px; margin: 5px; border-radius: 10px;">
+            ¡Bienvenido al asesor virtual de inversiones de <strong>Strike Finance Group</strong>! 💼<br> ¿En qué podemos ayudarte hoy?
+        </div>
+    </div>`;
+    chat.innerHTML += welcome;
+    chat.scrollTop = chat.scrollHeight;
+}
+
+function saveMessageToDB(name, message) {
+        fetch("save_message.php", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/x-www-form-urlencoded",
+            },
+            body: `name=${encodeURIComponent(name)}&message=${encodeURIComponent(message)}`,
+        })
+        .then((response) => response.text())
+        .then((data) => console.log("Guardado:", data))
+        .catch((error) => console.error("Error:", error));
+    }
+
+function sendMessage() {
+    const input = document.getElementById('user-input');
+    const chat = document.getElementById('chat-content');
+    
+
+    const userMessage = input.value.trim();
+    if (!userMessage) return;
+
+    const userBubble = `<div style="text-align: right;">
+        <div style="display: inline-block; background: #0d6efd; color: white; padding: 8px; margin: 5px; border-radius: 10px;">${userMessage}</div>
+    </div>`;
+    chat.innerHTML += userBubble;
+
+    input.value = '';
+    chat.scrollTop = chat.scrollHeight;
+
+    setTimeout(() => {
+        let botMessage = '';
+        stepCount++;
+
+        if (stepCount <= limit) {
+            if (userMessage.toLowerCase().includes("hola")) {
+                botMessage = "¡Hola! ¿Tienes un proyecto o necesitas asesoría financiera?";
+            } else if (userMessage.toLowerCase().includes("inversión") || userMessage.toLowerCase().includes("proyecto")) {
+                botMessage = "Ofrecemos inversión en oro, criptoactivos, bienes raíces y más. ¿Cuál te interesa?";
+            } else if (userMessage.toLowerCase().includes("no") || userMessage.length < 10) {
+                botMessage = "Entiendo, ¿puedes darme más detalles?";
+            } else {
+                botMessage = "Interesante. ¿Quieres que un asesor te oriente?";
+            }
+        }
+            else {
+                        botMessage = "Ya has interactuado bastante conmigo 🤖. Ahora te paso con un asesor.<br><a href='https://wa.me/99440708446' target='_blank'>Contactar por WhatsApp</a>";
+                    }
+
+        const botBubble = `<div style="text-align: left;">
+            <div style="display: inline-block; background: #f1f1f1; padding: 8px; margin: 5px; border-radius: 10px;">${botMessage}</div>
+        </div>`;
+        chat.innerHTML += botBubble;
+        chat.scrollTop = chat.scrollHeight;
+    }, 600);
+}
+
+
+
+
+</script>
+
+
 
     </body>
 
