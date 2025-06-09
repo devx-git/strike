@@ -9,7 +9,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $mensaje = $_POST['message'];
 
     // Dirección de correo a la que quieres enviar
-    $destinatario = "devxsolutionsit@gmail.com"; // <--- cámbialo por el tuyo
+    $destinatario = "administracion@strikefg.com"; // <--- cámbialo por el tuyo
     $titulo = "Nuevo mensaje desde el formulario";
 
     // Cuerpo del mensaje
